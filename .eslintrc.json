@@ -1,3 +1,8 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  // Esto solo lo hago por fines educativos, no se tiene que hacer en producción
+  "rules": {
+    "@next/next/no-img-element": "off",   
+    "jsx-ally/alt-text": "off"              // Esto es para que no me de error en las imagenes
+  }
 }
