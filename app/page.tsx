@@ -2,6 +2,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { RandomFox } from "@/components/RandomFox";
 
+const random = (): number => Math.floor(Math.random() * 123) + 1;                   // Función que retorna un numero aleatorio entre 1 y 123, le definimos un tipo de dato de retorno "number"
+
 const Home: NextPage = () => {
   return (
     <div>
@@ -13,7 +15,7 @@ const Home: NextPage = () => {
 
       <main>
         <h1 className="text-3xl font-bold underline">Hey Platzi 😎!</h1>
-        <RandomFox />
+        <RandomFox alt="Este_es_un_mensje_desde_props" image={`https://randomfox.ca/images/${random()}.jpg`}/>
       </main>
 
       <footer></footer>
