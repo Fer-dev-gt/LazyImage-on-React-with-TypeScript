@@ -6,15 +6,20 @@ import { RandomFox } from "@/components/RandomFox";
 
 const random = (): number => Math.floor(Math.random() * 123) + 1;                   // Función que retorna un numero aleatorio entre 1 y 123, le definimos un tipo de dato de retorno "number"
 
+// generate simple unique id
+const generateId = (): string => Math.random().toString(36).substring(2) + Date.now().toString(36);     // Función que retorna un string aleatorio, le definimos un tipo de dato de retorno "string"
+
+type ImageItem = {id: string, url: string};                                         // Defino un Type "ImageItem" que es un objeto que tiene las propiedades "id" y "url" y donde defino el tipo de dato de cada propiedad, si quiero agreagar una propiedad nueva solo la agrego aquí y ya
+
 const Home: NextPage = () => {
-  const [images, setImages] = useState<Array<string>>([]);                          // Le agregamos el tipo al Hook "useState" para que sepa que tipo de dato va a recibir, esto usando la sintaxis de Génericos "<Array<string>>", en este caso un array de strings, y le pasamos un array vacio como valor inicial
+  const [images, setImages] = useState<Array<ImageItem>>([]);                       // Al useState le damos un Tipado de un array de objetos de tipo "ImageItem" el cual tiene sus propiedades tambien tipadas
 
   useEffect(() => {
-    setImages([
-      `https://randomfox.ca/images/${random()}.jpg`,
-      `https://randomfox.ca/images/${random()}.jpg`,
-      `https://randomfox.ca/images/${random()}.jpg`,
-      `https://randomfox.ca/images/${random()}.jpg`,
+    setImages([                                                                     // Agregamos un array de objetos a la variable "images" usando el método "setImages" que es el método que nos permite actualizar el estado de la variable "images", este método recibe como argumento un array de objetos, cada objeto tiene las propiedades "id" y "url" y el valor de la propiedad "url" es un string que contiene la url de una imagen de un zorro aleatoria
+
+      {id: generateId(), url: `https://randomfox.ca/images/${random()}.jpg`},
+      {id: generateId(), url: `https://randomfox.ca/images/${random()}.jpg`},
+      {id: generateId(), url: `https://randomfox.ca/images/${random()}.jpg`},
     ]);
   }, []);
 
@@ -28,9 +33,9 @@ const Home: NextPage = () => {
 
       <main>
         <h1 className="text-3xl font-bold underline">Hey Platzi 😎!</h1>
-        { images.map((image, index) => (                                            // Recorremos el array de imagenes y por cada imagen retornamos un componente de tipo "RandomFox" al que le pasamos las propiedades "image" y "alt" que son las que definimos en el componente "RandomFox"
-            <div key={index} className="p-4">                                       {/* El atributo "key" es obligatorio cuando se recorre un array y se retorna un componente, este atributo es un identificador único que se le asigna a cada componente que se retorna, este atributo es obligatorio para que React pueda identificar cada componente de forma única y así poder hacer un seguimiento de cada componente */}
-              <RandomFox image={image} alt={image}/>    
+        { images.map(({ id, url }) => (                                       // Aplica destructuring al objeto "image" y obtiene las propiedades "id" y "url" esto nos sirve para no tener que escribir "image.id" y "image.url" en cada iteración, usamos map para iterar el array "images" y retornar un componente "RandomFox" por cada elemento del array "images"
+            <div key={id} className="p-4">                                      
+              <RandomFox image={url} alt={id}/>    
             </div>
           )) 
         }
