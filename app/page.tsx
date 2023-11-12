@@ -1,27 +1,33 @@
 'use client';                                                          // Escribimos "use client" para que sepa que este archivo es de tipo "client" y no de tipo "server", esto es porque estamos usando Next.js y Next.js nos permite crear aplicaciones que se ejecutan tanto en el servidor como en el cliente, por lo que debemos especificarle a TypeScript si este archivo es de tipo "client" o de tipo "server"
-import { useState, useEffect } from "react";
-import type { NextPage } from "next";
 import Head from "next/head";
+import { useState } from "react";
 import { RandomFox } from "@/components/RandomFox";
+import type { NextPage } from "next";
+import type { MouseEventHandler } from "react";
 
-const random = (): number => Math.floor(Math.random() * 123) + 1;                   // Función que retorna un numero aleatorio entre 1 y 123, le definimos un tipo de dato de retorno "number"
-
-// generate simple unique id
+const random = (): number => Math.floor(Math.random() * 123) + 1;                                       // Función que retorna un numero aleatorio entre 1 y 123, le definimos un tipo de dato de retorno "number"
 const generateId = (): string => Math.random().toString(36).substring(2) + Date.now().toString(36);     // Función que retorna un string aleatorio, le definimos un tipo de dato de retorno "string"
 
-type ImageItem = {id: string, url: string};                                         // Defino un Type "ImageItem" que es un objeto que tiene las propiedades "id" y "url" y donde defino el tipo de dato de cada propiedad, si quiero agreagar una propiedad nueva solo la agrego aquí y ya
+type ImageItem = {                                                                  // Defino un Type "ImageItem" que es un objeto que tiene las propiedades "id" y "url" y donde defino el tipo de dato de cada propiedad, si quiero agreagar una propiedad nueva solo la agrego aquí y ya
+  id: string, 
+  url: string 
+};                                         
 
 const Home: NextPage = () => {
   const [images, setImages] = useState<Array<ImageItem>>([]);                       // Al useState le damos un Tipado de un array de objetos de tipo "ImageItem" el cual tiene sus propiedades tambien tipadas
 
-  useEffect(() => {
-    setImages([                                                                     // Agregamos un array de objetos a la variable "images" usando el método "setImages" que es el método que nos permite actualizar el estado de la variable "images", este método recibe como argumento un array de objetos, cada objeto tiene las propiedades "id" y "url" y el valor de la propiedad "url" es un string que contiene la url de una imagen de un zorro aleatoria
+  const addNewFox: MouseEventHandler<HTMLButtonElement> = (event) => {              // Indicamos que esta función retorna un tipo de dato "MouseEventHandler<HTMLButtonElement>" que es el tipo de dato que retorna un evento de tipo "click" en un elemento de tipo "button", al hacer hover sobre una propiedad podemos ver en la libreria de TypeScript que tipo de dato retorna esa propiedad y cual necesita. Esta función recibe un parametro "event" que es de tipo "MouseEvent<HTMLButtonElement, MouseEvent>" 
+    event.preventDefault();                                                         // Al dar el tipo MouseEventHandler a la función, TypeScript nos indica que el parametro "event" es de tipo "MouseEvent<HTMLButtonElement, MouseEvent>" y que tiene la propiedad "preventDefault" que es de tipo "() => void" y que no recibe parametros y que no retorna nada, esto nos sirve para saber que podemos usar esa propiedad en la función
+    const target = event.target;                                                    // Al dar el tipo MouseEventHandler a la función, TypeScript nos indica que el parametro "event" es de tipo "MouseEvent<HTMLButtonElement, MouseEvent>" y que tiene la propiedad "target" que es de tipo "EventTarget & HTMLButtonElement" y que no recibe parametros y que no retorna nada, esto nos sirve para saber que podemos usar esa propiedad en la función
 
-      {id: generateId(), url: `https://randomfox.ca/images/${random()}.jpg`},
-      {id: generateId(), url: `https://randomfox.ca/images/${random()}.jpg`},
-      {id: generateId(), url: `https://randomfox.ca/images/${random()}.jpg`},
-    ]);
-  }, []);
+    const newImageItem: ImageItem = {
+      id: generateId(),
+      url: `https://randomfox.ca/images/${random()}.jpg`,
+    };
+
+    setImages([...images, newImageItem]);
+  }
+
 
   return (
     <div>
@@ -32,7 +38,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <h1 className="text-3xl font-bold underline">Hey Platzi 😎!</h1>
+        <h1 className="text-3xl font-bold underline">Hey</h1>
+        <button onClick={addNewFox}>Add new fox</button>
         { images.map(({ id, url }) => (                                       // Aplica destructuring al objeto "image" y obtiene las propiedades "id" y "url" esto nos sirve para no tener que escribir "image.id" y "image.url" en cada iteración, usamos map para iterar el array "images" y retornar un componente "RandomFox" por cada elemento del array "images"
             <div key={id} className="p-4">                                      
               <RandomFox image={url} alt={id}/>    
