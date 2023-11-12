@@ -1,3 +1,5 @@
+'use client';                                                          // Escribimos "use client" para que sepa que este archivo es de tipo "client" y no de tipo "server", esto es porque estamos usando Next.js y Next.js nos permite crear aplicaciones que se ejecutan tanto en el servidor como en el cliente, por lo que debemos especificarle a TypeScript si este archivo es de tipo "client" o de tipo "server"
+import { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { RandomFox } from "@/components/RandomFox";
@@ -5,6 +7,17 @@ import { RandomFox } from "@/components/RandomFox";
 const random = (): number => Math.floor(Math.random() * 123) + 1;                   // Función que retorna un numero aleatorio entre 1 y 123, le definimos un tipo de dato de retorno "number"
 
 const Home: NextPage = () => {
+  const [images, setImages] = useState<Array<string>>([]);                          // Le agregamos el tipo al Hook "useState" para que sepa que tipo de dato va a recibir, esto usando la sintaxis de Génericos "<Array<string>>", en este caso un array de strings, y le pasamos un array vacio como valor inicial
+
+  useEffect(() => {
+    setImages([
+      `https://randomfox.ca/images/${random()}.jpg`,
+      `https://randomfox.ca/images/${random()}.jpg`,
+      `https://randomfox.ca/images/${random()}.jpg`,
+      `https://randomfox.ca/images/${random()}.jpg`,
+    ]);
+  }, []);
+
   return (
     <div>
       <Head>
@@ -15,7 +28,12 @@ const Home: NextPage = () => {
 
       <main>
         <h1 className="text-3xl font-bold underline">Hey Platzi 😎!</h1>
-        <RandomFox alt="Este_es_un_mensje_desde_props" image={`https://randomfox.ca/images/${random()}.jpg`}/>
+        { images.map((image, index) => (                                            // Recorremos el array de imagenes y por cada imagen retornamos un componente de tipo "RandomFox" al que le pasamos las propiedades "image" y "alt" que son las que definimos en el componente "RandomFox"
+            <div key={index} className="p-4">                                       {/* El atributo "key" es obligatorio cuando se recorre un array y se retorna un componente, este atributo es un identificador único que se le asigna a cada componente que se retorna, este atributo es obligatorio para que React pueda identificar cada componente de forma única y así poder hacer un seguimiento de cada componente */}
+              <RandomFox image={image} alt={image}/>    
+            </div>
+          )) 
+        }
       </main>
 
       <footer></footer>
