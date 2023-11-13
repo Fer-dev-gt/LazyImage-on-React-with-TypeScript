@@ -1,7 +1,7 @@
 'use client';                                                          // Escribimos "use client" para que sepa que este archivo es de tipo "client" y no de tipo "server", esto es porque estamos usando Next.js y Next.js nos permite crear aplicaciones que se ejecutan tanto en el servidor como en el cliente, por lo que debemos especificarle a TypeScript si este archivo es de tipo "client" o de tipo "server"
 import Head from "next/head";
 import { useState } from "react";
-import { RandomFox } from "@/components/RandomFox";
+import { LazyImage } from "@/components/RandomFox";
 import type { NextPage } from "next";
 import type { MouseEventHandler } from "react";
 
@@ -42,7 +42,14 @@ const Home: NextPage = () => {
         <button onClick={addNewFox}>Add new fox</button>
         { images.map(({ id, url }) => (                                       // Aplica destructuring al objeto "image" y obtiene las propiedades "id" y "url" esto nos sirve para no tener que escribir "image.id" y "image.url" en cada iteración, usamos map para iterar el array "images" y retornar un componente "RandomFox" por cada elemento del array "images"
             <div key={id} className="p-4">                                      
-              <RandomFox image={url} alt={id}/>    
+              <LazyImage 
+                src={url}                                                     // Le pasamos la propiedad "url" del objeto "image" al componente "LazyImage", abajo vamos a enviarle todas las propiedades que no definimos en el Type "Props" al componente "LazyImage" usando la sintaxis "{...imgProps}"
+                alt={id} 
+                title="Random Fox" 
+                width={320} 
+                height="auto" 
+                className='rounded bg-gray-300'
+                onClick={() => console.log("Click en la imagen")} />    
             </div>
           )) 
         }
