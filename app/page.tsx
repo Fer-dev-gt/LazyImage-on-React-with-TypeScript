@@ -2,10 +2,11 @@
 import Head from "next/head";
 import { useState } from "react";
 import { LazyImage } from "@/components/RandomFox";
+import { random } from "lodash";
 import type { NextPage } from "next";
 import type { MouseEventHandler } from "react";
 
-const random = (): number => Math.floor(Math.random() * 123) + 1;                                       // Función que retorna un numero aleatorio entre 1 y 123, le definimos un tipo de dato de retorno "number"
+const myRandom = () => random(1, 123);                                                                  // Función que retorna un numero aleatorio entre 1 y 123
 const generateId = (): string => Math.random().toString(36).substring(2) + Date.now().toString(36);     // Función que retorna un string aleatorio, le definimos un tipo de dato de retorno "string"                             
 
 const Home: NextPage = () => {
@@ -16,7 +17,7 @@ const Home: NextPage = () => {
 
     const newImageItem: IFoxImageItem = {
       id: generateId(),
-      url: `https://randomfox.ca/images/${random()}.jpg`,
+      url: `https://randomfox.ca/images/${myRandom()}.jpg`,
     };
 
     setImages([...images, newImageItem]);
