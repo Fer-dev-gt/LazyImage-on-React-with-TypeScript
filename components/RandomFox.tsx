@@ -50,5 +50,3 @@ export const LazyImage = ({ src, onLazyLoad, ...imgProps}: Props): JSX.Element =
     {...imgProps}                                                                 // Destructuramos el objeto "imgProps" para pasarle todas las propiedades que no definimos en el Type "Props" al elemento "img"
   />
 }
-
-

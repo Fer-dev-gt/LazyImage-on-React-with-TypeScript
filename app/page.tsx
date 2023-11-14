@@ -6,27 +6,21 @@ import type { NextPage } from "next";
 import type { MouseEventHandler } from "react";
 
 const random = (): number => Math.floor(Math.random() * 123) + 1;                                       // Función que retorna un numero aleatorio entre 1 y 123, le definimos un tipo de dato de retorno "number"
-const generateId = (): string => Math.random().toString(36).substring(2) + Date.now().toString(36);     // Función que retorna un string aleatorio, le definimos un tipo de dato de retorno "string"
-
-type ImageItem = {                                                                  // Defino un Type "ImageItem" que es un objeto que tiene las propiedades "id" y "url" y donde defino el tipo de dato de cada propiedad, si quiero agreagar una propiedad nueva solo la agrego aquí y ya
-  id: string, 
-  url: string 
-};                                         
+const generateId = (): string => Math.random().toString(36).substring(2) + Date.now().toString(36);     // Función que retorna un string aleatorio, le definimos un tipo de dato de retorno "string"                             
 
 const Home: NextPage = () => {
-  const [images, setImages] = useState<Array<ImageItem>>([]);                       // Al useState le damos un Tipado de un array de objetos de tipo "ImageItem" el cual tiene sus propiedades tambien tipadas
+  const [images, setImages] = useState<Array<IFoxImageItem>>([]);                       // Al useState le damos un Tipado de un array de objetos de tipo "ImageItem" el cual tiene sus propiedades tambien tipadas
 
   const addNewFox: MouseEventHandler<HTMLButtonElement> = (event) => {              // Indicamos que esta función retorna un tipo de dato "MouseEventHandler<HTMLButtonElement>" que es el tipo de dato que retorna un evento de tipo "click" en un elemento de tipo "button", al hacer hover sobre una propiedad podemos ver en la libreria de TypeScript que tipo de dato retorna esa propiedad y cual necesita. Esta función recibe un parametro "event" que es de tipo "MouseEvent<HTMLButtonElement, MouseEvent>" 
     event.preventDefault();                                                         // Al dar el tipo MouseEventHandler a la función, TypeScript nos indica que el parametro "event" es de tipo "MouseEvent<HTMLButtonElement, MouseEvent>" y que tiene la propiedad "preventDefault" que es de tipo "() => void" y que no recibe parametros y que no retorna nada, esto nos sirve para saber que podemos usar esa propiedad en la función
 
-    const newImageItem: ImageItem = {
+    const newImageItem: IFoxImageItem = {
       id: generateId(),
       url: `https://randomfox.ca/images/${random()}.jpg`,
     };
 
     setImages([...images, newImageItem]);
   }
-
 
   return (
     <div>
