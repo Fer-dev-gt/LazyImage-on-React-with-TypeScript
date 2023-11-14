@@ -18,7 +18,6 @@ const Home: NextPage = () => {
 
   const addNewFox: MouseEventHandler<HTMLButtonElement> = (event) => {              // Indicamos que esta función retorna un tipo de dato "MouseEventHandler<HTMLButtonElement>" que es el tipo de dato que retorna un evento de tipo "click" en un elemento de tipo "button", al hacer hover sobre una propiedad podemos ver en la libreria de TypeScript que tipo de dato retorna esa propiedad y cual necesita. Esta función recibe un parametro "event" que es de tipo "MouseEvent<HTMLButtonElement, MouseEvent>" 
     event.preventDefault();                                                         // Al dar el tipo MouseEventHandler a la función, TypeScript nos indica que el parametro "event" es de tipo "MouseEvent<HTMLButtonElement, MouseEvent>" y que tiene la propiedad "preventDefault" que es de tipo "() => void" y que no recibe parametros y que no retorna nada, esto nos sirve para saber que podemos usar esa propiedad en la función
-    const target = event.target;                                                    // Al dar el tipo MouseEventHandler a la función, TypeScript nos indica que el parametro "event" es de tipo "MouseEvent<HTMLButtonElement, MouseEvent>" y que tiene la propiedad "target" que es de tipo "EventTarget & HTMLButtonElement" y que no recibe parametros y que no retorna nada, esto nos sirve para saber que podemos usar esa propiedad en la función
 
     const newImageItem: ImageItem = {
       id: generateId(),
@@ -40,7 +39,7 @@ const Home: NextPage = () => {
       <main>
         <h1 className="text-3xl font-bold underline">Hey</h1>
         <button onClick={addNewFox}>Add new fox</button>
-        { images.map(({ id, url }) => (                                       // Aplica destructuring al objeto "image" y obtiene las propiedades "id" y "url" esto nos sirve para no tener que escribir "image.id" y "image.url" en cada iteración, usamos map para iterar el array "images" y retornar un componente "RandomFox" por cada elemento del array "images"
+        { images.map(({ id, url }, index) => (                                       // Aplica destructuring al objeto "image" y obtiene las propiedades "id" y "url" esto nos sirve para no tener que escribir "image.id" y "image.url" en cada iteración, usamos map para iterar el array "images" y retornar un componente "RandomFox" por cada elemento del array "images"
             <div key={id} className="p-4">                                      
               <LazyImage 
                 src={url}                                                     // Le pasamos la propiedad "url" del objeto "image" al componente "LazyImage", abajo vamos a enviarle todas las propiedades que no definimos en el Type "Props" al componente "LazyImage" usando la sintaxis "{...imgProps}"
@@ -49,7 +48,9 @@ const Home: NextPage = () => {
                 width={320} 
                 height="auto" 
                 className='rounded bg-gray-300'
-                onClick={() => console.log("Click en la imagen")} />    
+                onClick={() => console.log("Click en la imagen")} 
+                onLazyLoad={(img) => console.log(`Imagen #${index + 1} cargada. Nodo:`, img)}
+                />    
             </div>
           )) 
         }
