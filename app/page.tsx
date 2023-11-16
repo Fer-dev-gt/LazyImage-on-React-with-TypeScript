@@ -54,7 +54,7 @@ const Home: NextPage = () => {
                 src={url}                                                     // Le pasamos la propiedad "url" del objeto "image" al componente "LazyImage", abajo vamos a enviarle todas las propiedades que no definimos en el Type "Props" al componente "LazyImage" usando la sintaxis "{...imgProps}"
                 alt={id} 
                 title="Random Fox" 
-                width={320} 
+                width={450} 
                 height="auto" 
                 className="mx-auto rounded-md bg-gray-300 border-black border-2"
                 onClick={() => console.log("Click en la imagen")} 
