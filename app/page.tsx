@@ -37,7 +37,7 @@ const Home: NextPage = () => {
         ></script>
       </Head>
 
-      <main className="text-center">
+      <main className="container false h-full mx-auto p-4 flex flex-col items-center  text-center">
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-4xl font-bold p-4 pt-16 ">🦊 Random Foxes with React & TS 🦊</h1>
         <PageContent />
@@ -48,21 +48,22 @@ const Home: NextPage = () => {
           Add new fox
         </button>
       </div>
-        { images.map(({ id, url }, index) => (                                       // Aplica destructuring al objeto "image" y obtiene las propiedades "id" y "url" esto nos sirve para no tener que escribir "image.id" y "image.url" en cada iteración, usamos map para iterar el array "images" y retornar un componente "RandomFox" por cada elemento del array "images"
+      <div className="flex flex-wrap justify-center">
+        { images.map(({ id, url }, index) => (                                        // Aplica destructuring al objeto "image" y obtiene las propiedades "id" y "url" esto nos sirve para no tener que escribir "image.id" y "image.url" en cada iteración, usamos map para iterar el array "images" y retornar un componente "RandomFox" por cada elemento del array "images"
             <div key={id} className="p-4">                                      
               <LazyImage 
-                src={url}                                                     // Le pasamos la propiedad "url" del objeto "image" al componente "LazyImage", abajo vamos a enviarle todas las propiedades que no definimos en el Type "Props" al componente "LazyImage" usando la sintaxis "{...imgProps}"
+                src={url}                                                             // Le pasamos la propiedad "url" del objeto "image" al componente "LazyImage", abajo vamos a enviarle todas las propiedades que no definimos en el Type "Props" al componente "LazyImage" usando la sintaxis "{...imgProps}"
                 alt={id} 
                 title="Random Fox" 
-                width={450} 
-                height="auto" 
-                className="mx-auto rounded-md bg-gray-300 border-black border-2"
+                width={320} 
+                className="object-cover h-full p-3 mx-auto rounded-md bg-brown-500 border-black border-2 "
                 onClick={() => console.log("Click en la imagen")} 
                 onLazyLoad={(img) => console.log(`Imagen #${index + 1} cargada. Nodo:`, img)}
-                />    
+              />    
             </div>
           )) 
         }
+      </div>
       </main>
 
       <footer className="text-center mt-auto p-6 text-sm">
